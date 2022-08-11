@@ -1,7 +1,8 @@
+/* eslint-disable prettier/prettier */
 import { CreatePostInput } from './create-post.input';
 import { InputType, Field, PartialType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsDate, IsNotEmpty } from 'class-validator';
 
 @InputType()
 export class UpdatePostInput extends PartialType(CreatePostInput) {
@@ -37,6 +38,7 @@ export class UpdatePostInput extends PartialType(CreatePostInput) {
   isPublished: boolean;
 
   @ApiProperty({ required: false })
+  @IsDate()
   @Field()
   updateAt: Date;
 }

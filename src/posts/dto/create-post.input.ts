@@ -1,4 +1,5 @@
-import { InputType, Field, Int } from '@nestjs/graphql';
+/* eslint-disable prettier/prettier */
+import { InputType, Field } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 

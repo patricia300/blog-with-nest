@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+import { Post as Posts } from './entities/post.entity';
 import { UpdatePostInput } from './dto/update-post.input';
 import { CreatePostInput } from './dto/create-post.input';
 import {
@@ -8,15 +10,21 @@ import {
   Patch,
   Param,
   Delete,
+  HttpCode,
+  HttpStatus,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('posts')
+@ApiTags('Posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Post()
-  create(@Body() createPostDto: CreatePostInput) {
+  @HttpCode(HttpStatus.CREATED)
+  create(@Body() createPostDto: CreatePostInput): Promise<Posts>{
     return this.postsService.create(createPostDto);
   }
 
@@ -26,12 +34,12 @@ export class PostsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.postsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostInput) {
+  update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updatePostDto: UpdatePostInput) {
     return this.postsService.update(id, updatePostDto);
   }
 
