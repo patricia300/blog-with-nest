@@ -11,6 +11,9 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+/src/schema.gql
+/blog-db
+
 # OS
 .DS_Store
 
