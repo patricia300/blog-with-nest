@@ -1,9 +1,10 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { randomInt } from 'crypto';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 @ObjectType()
+@Unique([ 'author', 'title' ])
 export class Post {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => String)
@@ -37,19 +38,14 @@ export class Post {
   @Field(() => Int)
   viewNumber: number;
 
-  @Column({
-    nullable: false,
-    default: () => 'CURRENT_TIMESTAMP',
-    type: 'datetime',
-  })
+  @CreateDateColumn()
   @Field()
-  createdAt: Date;
+  createdDate: Date;
 
-  @Column({
-    nullable: false,
-    default: () => 'CURRENT_TIMESTAMP',
-    type: 'datetime',
-  })
+  @UpdateDateColumn()
   @Field()
-  updateAt: Date;
+  updatedDate: Date;
+
+  @DeleteDateColumn()
+  deletedDate: Date;
 }

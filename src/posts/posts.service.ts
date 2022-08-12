@@ -33,7 +33,7 @@ export class PostsService {
   async remove(id: string) {
     const removedPost = this.postsRepository
       .findOneByOrFail({ id })
-      .then((post) => this.postsRepository.remove(post));
+      .then((post) => this.postsRepository.softRemove(post));
 
     return removedPost;
   }
