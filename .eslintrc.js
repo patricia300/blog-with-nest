@@ -5,7 +5,7 @@ module.exports = {
     tsconfigRootDir : __dirname, 
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'prettier'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
@@ -17,9 +17,14 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
+    'no-underscore-dangle': 0,
+    camelcase: 0,
+    '@typescript-eslint/interface-name-prefix': 'true',
+    '@typescript-eslint/explicit-function-return-type': 'true',
+    '@typescript-eslint/explicit-module-boundary-types': 'true',
+    '@typescript-eslint/no-explicit-any': 'true',
+    'linebreak-style': ['error', 'unix'],
+    semi: ['error', 'never'],
+    'prettier/prettier': ['error', {}, { usePrettierrc: true }],
   },
 };
