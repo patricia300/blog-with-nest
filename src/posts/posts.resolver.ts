@@ -21,7 +21,7 @@ export class PostsResolver {
   }
 
   @Query(() => Post, { name: 'post' })
-  findOne(@Args('id', { type: () => Int }) id: string) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.postsService.findOne(id);
   }
 
@@ -31,7 +31,7 @@ export class PostsResolver {
   }
 
   @Mutation(() => Post)
-  removePost(@Args('id', { type: () => Int }) id: string) {
+  removePost(@Args('id', { type: () => String }) id: string) {
     return this.postsService.remove(id);
   }
 }
