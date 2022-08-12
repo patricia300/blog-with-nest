@@ -36,9 +36,4 @@ export class UpdatePostInput extends PartialType(CreatePostInput) {
   @ApiProperty({ required: false })
   @Field(() => Boolean)
   isPublished: boolean;
-
-  @ApiProperty({ required: false })
-  @IsDate()
-  @Field()
-  updateAt: Date;
 }
