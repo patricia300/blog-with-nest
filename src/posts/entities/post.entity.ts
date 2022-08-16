@@ -47,5 +47,6 @@ export class Post {
   updatedDate: Date;
 
   @DeleteDateColumn()
+  @Field()
   deletedDate: Date;
 }
