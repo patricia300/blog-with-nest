@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { InputType, Field } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsNotEmpty, IsString } from 'class-validator';
 
 @InputType()
 export class CreatePostInput {
@@ -18,9 +18,9 @@ export class CreatePostInput {
   category: string;
 
   @ApiProperty({ required: false })
-  @IsString()
-  @Field(() => String)
-  tags: string;
+  @IsArray()
+  @Field(() => [String])
+  tags: string[];
 
   @ApiProperty()
   @IsNotEmpty()
