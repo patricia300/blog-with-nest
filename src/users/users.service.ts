@@ -29,6 +29,11 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
+  findOneByUsername(username: string)
+  {
+    return this.usersRepository.findOneBy({ username });
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     if (!updateUserDto.password) {
       const user = this.usersRepository.create({id, ...updateUserDto});
@@ -41,7 +46,7 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  remove(id: string) {
+  async remove(id: string): Promise<User> {
     return this.usersRepository
       .findOneBy({ id })
       .then(

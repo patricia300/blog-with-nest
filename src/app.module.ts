@@ -6,6 +6,7 @@ import config from 'orm.config';
 import { join } from 'path';
 import { PostsModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(config),
@@ -16,6 +17,7 @@ import { UsersModule } from './users/users.module';
     }),
     PostsModule,
     UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
