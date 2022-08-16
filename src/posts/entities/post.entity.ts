@@ -26,9 +26,9 @@ export class Post {
   @Field(() => String)
   author: string;
 
-  @Column()
-  @Field(() => String)
-  tags: string;
+  @Column('simple-array')
+  @Field(() => [String])
+  tags: string[];
 
   @Column({ default: false })
   @Field(() => Boolean)

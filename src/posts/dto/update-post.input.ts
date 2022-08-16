@@ -2,14 +2,10 @@
 import { CreatePostInput } from './create-post.input';
 import { InputType, Field, PartialType } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNotEmpty } from 'class-validator';
+import { IsArray, IsDate, IsNotEmpty } from 'class-validator';
 
 @InputType()
 export class UpdatePostInput extends PartialType(CreatePostInput) {
-  @ApiProperty()
-  @Field(() => String)
-  id: string;
-
   @ApiProperty()
   @IsNotEmpty()
   @Field(() => String)
@@ -21,8 +17,9 @@ export class UpdatePostInput extends PartialType(CreatePostInput) {
   category: string;
 
   @ApiProperty({ required: false })
-  @Field(() => String)
-  tags: string;
+  @IsArray()
+  @Field(() => [String])
+  tags: string[];
 
   @ApiProperty()
   @IsNotEmpty()
