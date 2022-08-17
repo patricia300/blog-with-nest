@@ -2,35 +2,45 @@
 import { CreatePostInput } from './create-post.input'
 import { InputType, Field, PartialType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsArray, IsNotEmpty } from 'class-validator'
+import {
+    IsArray,
+    IsBoolean,
+    IsDate,
+    IsNotEmpty,
+    IsString,
+} from 'class-validator'
 
 @InputType()
 export class UpdatePostInput extends PartialType(CreatePostInput) {
     @ApiProperty()
     @IsNotEmpty()
-    @Field(() => String)
+    @IsString()
+    @Field(() => String, { nullable: true })
     title: string
 
     @ApiProperty()
     @IsNotEmpty()
-    @Field(() => String)
+    @IsString()
+    @Field(() => String, { nullable: true })
     category: string
 
     @ApiProperty({ required: false })
     @IsArray()
-    @Field(() => [String])
+    @Field(() => [String], { nullable: 'itemsAndList' })
     tags: string[]
 
     @ApiProperty()
     @IsNotEmpty()
-    @Field(() => String)
+    @IsString()
+    @Field(() => String, { nullable: true })
     content: string
 
     @ApiProperty({ required: false })
-    @Field(() => String)
+    @Field(() => String, { nullable: true })
     author: string
 
     @ApiProperty({ required: false })
-    @Field(() => Boolean)
+    @IsBoolean()
+    @Field(() => Boolean, { nullable: true })
     isPublished: boolean
 }

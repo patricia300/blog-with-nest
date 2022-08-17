@@ -1,36 +1,47 @@
-import { Field } from "@nestjs/graphql";
-import { Exclude } from "class-transformer";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
+import { Field } from '@nestjs/graphql'
+import { Exclude } from 'class-transformer'
+import {
+    Column,
+    CreateDateColumn,
+    DeleteDateColumn,
+    Entity,
+    PrimaryGeneratedColumn,
+    Unique,
+    UpdateDateColumn,
+} from 'typeorm'
 
 @Entity()
-@Unique(['username','email'])
+@Unique(['username', 'email'])
 export class User {
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    id: string
 
     @Column()
-    username: string;
+    username: string
 
     @Column()
     @Exclude()
-    hash: string;
+    hash: string
 
     @Column()
-    email: string;
+    email: string
+
+    @Column({ default: 'user', enum: ['user', 'writer', 'admin'], length: 10 })
+    role: string
 
     @CreateDateColumn()
     @Field()
-    createdDate: Date;
+    createdDate: Date
 
     @UpdateDateColumn()
     @Field()
-    updatedDate: Date;
+    updatedDate: Date
 
     @DeleteDateColumn()
     @Exclude()
-    deletedDate: Date;
+    deletedDate: Date
 
     constructor(partial: Partial<User>) {
-    Object.assign(this, partial);
-  }
- }
+        Object.assign(this, partial)
+    }
+}
