@@ -1,40 +1,50 @@
 /* eslint-disable prettier/prettier */
-import { Post } from './entities/post.entity';
-import { Injectable } from '@nestjs/common';
-import { CreatePostInput } from './dto/create-post.input';
-import { UpdatePostInput } from './dto/update-post.input';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Post } from './entities/post.entity'
+import { Injectable } from '@nestjs/common'
+import { CreatePostInput } from './dto/create-post.input'
+import { UpdatePostInput } from './dto/update-post.input'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 
 @Injectable()
 export class PostsService {
-  constructor(
-    @InjectRepository(Post)
-    private postsRepository: Repository<Post>,
-  ) { }
-  
-  create(createPostInput: CreatePostInput): Promise<Post> {
-    const newPost = this.postsRepository.create(createPostInput);
-    return this.postsRepository.save(newPost);
-  }
+    constructor(
+        @InjectRepository(Post)
+        private postsRepository: Repository<Post>,
+    ) {}
 
-  findAll(): Promise<Post[]>{
-    return this.postsRepository.find();
-  }
+    create(createPostInput: CreatePostInput): Promise<Post> {
+        const newPost = this.postsRepository.create(createPostInput)
+        return this.postsRepository.save(newPost)
+    }
 
-  findOne(id: string): Promise<Post> {
-    return this.postsRepository.findOneByOrFail({ id });
-  }
+    findAll(): Promise<Post[]> {
+        return this.postsRepository.find()
+    }
 
-  update(id: string, updatePostInput: UpdatePostInput) {
-    return this.postsRepository.update({ id }, updatePostInput);
-  }
+    findOne(id: string): Promise<Post> {
+        return this.postsRepository.findOneByOrFail({ id })
+    }
 
-  async remove(id: string) {
-    const removedPost = this.postsRepository
-      .findOneByOrFail({ id })
-      .then((post) => this.postsRepository.softRemove(post));
+    update(id: string, updatePostInput: UpdatePostInput) {
+        return this.postsRepository.update({ id }, updatePostInput)
+    }
 
-    return removedPost;
-  }
+    async remove(id: string) {
+        return this.postsRepository
+            .findOneByOrFail({ id })
+            .then(post => this.postsRepository.softRemove(post))
+    }
+
+    async upvote(id: string) {
+        const post = await this.postsRepository.findOneByOrFail({ id })
+        post.upvote += 1
+        return this.postsRepository.save(post)
+    }
+
+    async downvote(id: string) {
+        const post = await this.postsRepository.findOneByOrFail({ id })
+        post.downvote += 1
+        return this.postsRepository.save(post)
+    }
 }
