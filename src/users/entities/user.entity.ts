@@ -1,4 +1,4 @@
-import { Field } from '@nestjs/graphql'
+import { Field, ObjectType } from '@nestjs/graphql'
 import { Exclude } from 'class-transformer'
 import {
     Column,
@@ -12,11 +12,14 @@ import {
 
 @Entity()
 @Unique(['username', 'email'])
+@ObjectType()
 export class User {
     @PrimaryGeneratedColumn('uuid')
+    @Field(() => String)
     id: string
 
     @Column()
+    @Field(() => String)
     username: string
 
     @Column()
@@ -24,9 +27,11 @@ export class User {
     hash: string
 
     @Column()
+    @Field(() => String)
     email: string
 
     @Column({ default: 'user', enum: ['user', 'writer', 'admin'], length: 10 })
+    @Field(() => String)
     role: string
 
     @CreateDateColumn()
@@ -39,6 +44,7 @@ export class User {
 
     @DeleteDateColumn()
     @Exclude()
+    @Field()
     deletedDate: Date
 
     constructor(partial: Partial<User>) {

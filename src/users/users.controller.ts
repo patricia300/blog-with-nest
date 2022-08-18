@@ -10,8 +10,8 @@ import {
     ClassSerializerInterceptor,
 } from '@nestjs/common'
 import { UsersService } from './users.service'
-import { CreateUserDto } from './dto/create-user.dto'
-import { UpdateUserDto } from './dto/update-user.dto'
+import { CreateUserInput } from './dto/create-user.input'
+import { UpdateUserInput } from './dto/update-user.input'
 import { ApiTags } from '@nestjs/swagger'
 
 @ApiTags('users')
@@ -21,8 +21,8 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Post()
-    create(@Body() createUserDto: CreateUserDto) {
-        return this.usersService.create(createUserDto)
+    create(@Body() createUserInput: CreateUserInput) {
+        return this.usersService.create(createUserInput)
     }
 
     @Get()
@@ -36,8 +36,8 @@ export class UsersController {
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-        return this.usersService.update(id, updateUserDto)
+    update(@Param('id') id: string, @Body() updateUserInput: UpdateUserInput) {
+        return this.usersService.update(id, updateUserInput)
     }
 
     @Delete(':id')
