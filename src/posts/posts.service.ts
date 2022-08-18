@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Post } from './entities/post.entity'
 import { Injectable } from '@nestjs/common'
 import { CreatePostInput } from './dto/create-post.input'
