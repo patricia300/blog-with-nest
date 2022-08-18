@@ -1,6 +1,6 @@
 import { Field } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsEmail, IsIn, IsNotEmpty, MinLength } from 'class-validator'
+import { IsNotEmpty, MinLength, IsEmail, IsIn } from 'class-validator'
 
 export class CreateUserDto {
     @ApiProperty()
