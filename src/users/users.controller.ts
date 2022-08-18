@@ -1,37 +1,76 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags } from '@nestjs/swagger';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    UseInterceptors,
+    ClassSerializerInterceptor,
+    NotFoundException,
+    BadRequestException,
+    ParseUUIDPipe,
+} from '@nestjs/common'
+import { UsersService } from './users.service'
+import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
+import {
+    ApiBadRequestResponse,
+    ApiNotFoundResponse,
+    ApiOkResponse,
+    ApiTags,
+} from '@nestjs/swagger'
+import { User } from './entities/user.entity'
 
 @ApiTags('users')
-  @Controller('users')
-  @UseInterceptors(ClassSerializerInterceptor)
+@Controller('users')
+@UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+    constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
+    @Post()
+    @ApiBadRequestResponse({ description: 'Bad request' })
+    @ApiOkResponse({ type: User })
+    create(@Body() createUserDto: CreateUserDto) {
+        const user = this.usersService.create(createUserDto)
+        if (!user) throw new BadRequestException()
+        return user
+    }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
+    @Get()
+    @ApiOkResponse({ type: [User] })
+    findAll() {
+        return this.usersService.findAll()
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
-  }
+    @Get(':id')
+    @ApiBadRequestResponse({ description: 'Bad request' })
+    @ApiNotFoundResponse({ description: 'Not found' })
+    @ApiOkResponse({ type: User })
+    findOne(@Param('id', ParseUUIDPipe) id: string) {
+        const user = this.usersService.findOne(id)
+        if (!user) throw new NotFoundException()
+        return user
+    }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
-  }
+    @Patch(':id')
+    @ApiBadRequestResponse({ description: 'Bad request' })
+    @ApiNotFoundResponse({ description: 'Not found' })
+    @ApiOkResponse({ type: User })
+    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+        const user = this.usersService.update(id, updateUserDto)
+        if (!user) throw new NotFoundException()
+        return user
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
-  }
+    @Delete(':id')
+    @ApiBadRequestResponse({ description: 'Bad request' })
+    @ApiNotFoundResponse({ description: 'Not found' })
+    @ApiOkResponse({ type: User })
+    remove(@Param('id') id: string) {
+        const user = this.usersService.remove(id)
+        if (!user) throw new NotFoundException()
+        return user
+    }
 }
