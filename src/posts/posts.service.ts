@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { CreatePostDto } from './dto/create-post.dto'
@@ -22,27 +22,33 @@ export class PostsService {
     }
 
     findOne(id: string): Promise<Post> {
-        return this.postsRepository.findOneByOrFail({ id })
+        return this.postsRepository.findOneBy({ id })
     }
 
     update(id: string, updatePostDto: UpdatePostDto) {
-        return this.postsRepository.update({ id }, updatePostDto)
+        const post = this.postsRepository.create({ id, ...updatePostDto })
+        return this.postsRepository.save(post)
     }
 
     async remove(id: string): Promise<Post> {
-        return this.postsRepository
-            .findOneByOrFail({ id })
-            .then(post => this.postsRepository.softRemove(post))
+        return this.postsRepository.findOneByOrFail({ id }).then(
+            post => this.postsRepository.softRemove(post),
+            () => {
+                throw new NotFoundException()
+            },
+        )
     }
 
     async upvote(id: string) {
-        const post = await this.postsRepository.findOneByOrFail({ id })
+        const post = await this.postsRepository.findOneBy({ id })
+        if (!post) throw new NotFoundException()
         post.upvote += 1
         return this.postsRepository.save(post)
     }
 
     async downvote(id: string) {
-        const post = await this.postsRepository.findOneByOrFail({ id })
+        const post = await this.postsRepository.findOneBy({ id })
+        if (!post) throw new NotFoundException()
         post.downvote += 1
         return this.postsRepository.save(post)
     }
