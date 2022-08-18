@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import config from 'orm.config';
+import { Module } from '@nestjs/common'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import config from 'orm.config'
 @Module({
-  imports: [TypeOrmModule.forRoot(config)],
+    imports: [TypeOrmModule.forRoot(config)],
 })
 export class AppModule {}
