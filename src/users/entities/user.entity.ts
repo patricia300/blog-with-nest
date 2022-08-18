@@ -1,4 +1,5 @@
 import { Field } from '@nestjs/graphql'
+import { ApiProperty } from '@nestjs/swagger'
 import { Exclude } from 'class-transformer'
 import {
     Column,
@@ -14,9 +15,11 @@ import {
 @Unique(['username', 'email'])
 export class User {
     @PrimaryGeneratedColumn('uuid')
+    @ApiProperty()
     id: string
 
     @Column()
+    @ApiProperty()
     username: string
 
     @Column()
@@ -24,17 +27,19 @@ export class User {
     hash: string
 
     @Column()
+    @ApiProperty()
     email: string
 
     @Column({ default: 'user', enum: ['user', 'writer', 'admin'], length: 10 })
+    @ApiProperty()
     role: string
 
     @CreateDateColumn()
-    @Field()
+    @ApiProperty()
     createdDate: Date
 
     @UpdateDateColumn()
-    @Field()
+    @ApiProperty()
     updatedDate: Date
 
     @DeleteDateColumn()
