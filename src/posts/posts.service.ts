@@ -1,10 +1,9 @@
-/* eslint-disable prettier/prettier */
-import { Post } from './entities/post.entity'
 import { Injectable } from '@nestjs/common'
-import { CreatePostInput } from './dto/create-post.input'
-import { UpdatePostInput } from './dto/update-post.input'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+import { CreatePostDto } from './dto/create-post.dto'
+import { UpdatePostDto } from './dto/update-post.dto'
+import { Post } from './entities/post.entity'
 
 @Injectable()
 export class PostsService {
@@ -13,8 +12,8 @@ export class PostsService {
         private postsRepository: Repository<Post>,
     ) {}
 
-    create(createPostInput: CreatePostInput): Promise<Post> {
-        const newPost = this.postsRepository.create(createPostInput)
+    create(createPostDto: CreatePostDto): Promise<Post> {
+        const newPost = this.postsRepository.create(createPostDto)
         return this.postsRepository.save(newPost)
     }
 
@@ -26,11 +25,11 @@ export class PostsService {
         return this.postsRepository.findOneByOrFail({ id })
     }
 
-    update(id: string, updatePostInput: UpdatePostInput) {
-        return this.postsRepository.update({ id }, updatePostInput)
+    update(id: string, updatePostDto: UpdatePostDto) {
+        return this.postsRepository.update({ id }, updatePostDto)
     }
 
-    async remove(id: string) {
+    async remove(id: string): Promise<Post> {
         return this.postsRepository
             .findOneByOrFail({ id })
             .then(post => this.postsRepository.softRemove(post))
