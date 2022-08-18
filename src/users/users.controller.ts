@@ -23,7 +23,7 @@ import {
 } from '@nestjs/swagger'
 import { User } from './entities/user.entity'
 
-@ApiTags('users')
+@ApiTags('Users')
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
